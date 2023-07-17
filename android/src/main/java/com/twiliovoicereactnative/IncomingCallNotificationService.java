@@ -110,7 +110,6 @@ public class IncomingCallNotificationService extends Service {
     notificationManager.cancel(notificationId);
 
     Storage.uuidNotificaionIdMap.put(uuid, notificationId);
-    startForeground(notificationId, NotificationUtility.createCallAnsweredNotificationWithLowImportance(callInvite, notificationId, uuid, this));
     // Send the broadcast in case TwilioVoiceReactNative is loaded, it can emit the event
     LocalBroadcastManager.getInstance(this).sendBroadcast(activeCallIntent);
   }
@@ -137,8 +136,6 @@ public class IncomingCallNotificationService extends Service {
   private void handleOutgoingCall(String callSid, int notificationId, String uuid) {
     Log.e(TAG, "Outgoing Call UUID " + uuid + " notificationId " + notificationId + " callSid " + callSid);
 
-    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-    startForeground(notificationId, NotificationUtility.createOutgoingCallNotificationWithLowImportance(callSid, notificationId, uuid, this, true));
   }
 
   private void handleCancelledCall(Intent intent, String callSid, int notificationId, String uuid) {
@@ -173,7 +170,6 @@ public class IncomingCallNotificationService extends Service {
     } else {
       Log.i(TAG, "setCallInProgressNotification - app is NOT visible with CallInvite UUID " + " notificationId" + notificationId);
     }
-    startForeground(notificationId, NotificationUtility.createIncomingCallNotification(callInvite, notificationId, uuid, NotificationManager.IMPORTANCE_HIGH, this));
     Log.d(TAG, "Adding items in callInviteUuidNotificaionIdMap uuid:" + uuid + " notificationId: " + notificationId);
     Storage.uuidNotificaionIdMap.put(uuid, notificationId);
   }
@@ -198,7 +194,6 @@ public class IncomingCallNotificationService extends Service {
     NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     notificationManager.cancel(notificationId);
     Log.i(TAG, "bringAppToForeground " + uuid + " notificationId" + notificationId);
-    startForeground(notificationId, NotificationUtility.createWakeupAppNotification(callSid, notificationId, uuid, NotificationManager.IMPORTANCE_LOW, this));
     Intent intent = new Intent(this, getMainActivityClass(getApplicationContext()));
     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
