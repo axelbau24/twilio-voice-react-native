@@ -170,6 +170,7 @@ public class IncomingCallNotificationService extends Service {
     } else {
       Log.i(TAG, "setCallInProgressNotification - app is NOT visible with CallInvite UUID " + " notificationId" + notificationId);
     }
+    Storage.uuidNotificaionIdMap.put(uuid, notificationId);
   }
 
   /*
